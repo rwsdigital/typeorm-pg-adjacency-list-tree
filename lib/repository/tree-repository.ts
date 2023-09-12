@@ -1,5 +1,5 @@
 import { first, get, map } from 'lodash'
-import { In, Repository, SelectQueryBuilder } from 'typeorm'
+import { In, Repository, SelectQueryBuilder, ObjectLiteral } from 'typeorm'
 import { FindTreeOptions } from 'typeorm/find-options/FindTreeOptions'
 import { childrenPropertyMetadataArgs } from '../constant/decorator-constants'
 import { NoRootParentError } from '../error/no-root-parent.error'
@@ -12,7 +12,7 @@ export interface IBaseTreeEntity {
   parentId: number
 }
 
-export class TreeRepository<Entity> extends Repository<Entity> implements ITreeRepository<Entity> {
+export class TreeRepository<Entity extends ObjectLiteral> extends Repository<Entity> implements ITreeRepository<Entity> {
   public async findTrees(options?: FindTreeOptions) {
     const roots = await this.findRoots(options)
     const trees = await Promise.all(roots.map((root) => this.findDescendantsTree(root, options)))
