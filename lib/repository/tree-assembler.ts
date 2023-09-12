@@ -17,7 +17,7 @@ export class TreeAssembler<Entity> {
       if (parentIdAsAny) {
         const parentAsAny = idToNode[parentIdAsAny] as any
 
-        if (!parentAsAny[this._config.childrenPropertyName]) {
+        if (parentAsAny && !parentAsAny[this._config.childrenPropertyName]) {
           parentAsAny[this._config.childrenPropertyName] = []
         }
 
